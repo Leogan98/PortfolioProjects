@@ -9,7 +9,6 @@ SELECT date, continent, location, total_deaths
 FROM PortfolioProject..CovidDeaths
 WHERE continent is not null and total_deaths is not null and location = 'Philippines' 
 
-
 --TOTAL CASES VS POPULATION
 --Likelihood of getting infected
 SELECT date, continent, location, population, total_cases, (total_cases/population)*100 as CasePercentage
@@ -21,7 +20,6 @@ WHERE continent IS NOT NULL and location = 'Philippines'
 SELECT date, continent, location, total_cases, total_deaths, (total_deaths/total_cases)*100 as DeathPercentageOverCases
 FROM PortfolioProject..CovidDeaths
 WHERE continent IS NOT NULL 
-
 
 --HIGHEST LOCATION INFECTED
 SELECT continent, location, population, max(total_cases) as HighestInfectionCount, MAX((total_cases/population)*100) as HighestCasePercentage
@@ -65,9 +63,7 @@ SELECT *, (TotalDeaths/TotalCases)*100 as Death_Percentage_Per_Continent
 FROM TotalDeaths_CTE
 ORDER BY Continent
 
-
 -- WORLD DEATH RATE DAILY
-
 SELECT date, SUM(new_cases) as Total_Cases, SUM(CAST(new_deaths as int)) as Total_Deaths,  SUM(CAST(new_deaths as int)) / SUM(new_cases) *100 as Death_Percentage_Per_Day
 FROM CovidDeaths
 WHERE continent is not null
@@ -75,7 +71,6 @@ group by date
 ORDER BY date
 
 -- TOTAL POPULATION VS TOTAL VACCINATION
-
 SELECT Deaths.continent, Deaths.location, Deaths.date, Deaths.population, Vaxx.new_vaccinations,
 SUM(Cast(Vaxx.new_vaccinations as bigint)) OVER (PARTITION BY Deaths.location order by Deaths.date) as Total_vaccinations_per_day
 FROM CovidDeaths as Deaths
@@ -108,9 +103,7 @@ WHERE Deaths.continent IS NOT NULL
 SELECT*, (Total_Vaccinations_Per_Day/Population)*100 AS Vaccination_Percentage
 FROM #VaccinationPercentage
 
-
 --VIEWS FOR VISUALIZATION
-
 CREATE VIEW Death_Percentage_Per_Cases as
 SELECT date, continent, location, total_cases, total_deaths, (total_deaths/total_cases)*100 as Death_Percentage_Per_Cases
 FROM PortfolioProject..CovidDeaths
